@@ -31,17 +31,14 @@ class _StartButtonState extends State<StartButton> {
           height: 40,
           width: 159,
           child: Center(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 6),
-              child: Text(
-                'Start',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: widget.selectedPrograms.isNotEmpty
-                        ? Colors.black
-                        : START_TEXT),
-              ),
+            child: Text(
+              'Start',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: widget.selectedPrograms.isNotEmpty
+                      ? Colors.black
+                      : START_TEXT),
             ),
           ),
         ),
