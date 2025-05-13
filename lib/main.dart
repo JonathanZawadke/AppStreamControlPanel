@@ -2,18 +2,21 @@ import 'package:appstream_tool/constant.dart';
 import 'package:appstream_tool/global_variable.dart';
 import 'package:flutter/material.dart';
 import 'package:appstream_tool/pages/home_page.dart';
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:window_manager/window_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  doWhenWindowReady(() {
-    const initialSize = Size(800, 580);
-    appWindow.minSize = initialSize;
-    appWindow.maxSize = initialSize;
-    appWindow.size = initialSize;
-    appWindow.alignment = Alignment.center;
-    appWindow.show();
+  await windowManager.ensureInitialized();
+  WindowOptions windowOptions = const WindowOptions(
+    size: Size(800, 580),
+    center: true,
+    titleBarStyle: TitleBarStyle.hidden,
+  );
+
+  windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.show();
+    await windowManager.focus();
   });
 
   final SharedPreferences prefs = await SharedPreferences.getInstance();
