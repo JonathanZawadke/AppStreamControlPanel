@@ -1,7 +1,7 @@
-import 'package:appstream_tool/constant.dart';
-import 'package:appstream_tool/global_variable.dart';
+import 'package:appstreamcontrolpanel/constant.dart';
+import 'package:appstreamcontrolpanel/global_variable.dart';
 import 'package:flutter/material.dart';
-import 'package:appstream_tool/pages/home_page.dart';
+import 'package:appstreamcontrolpanel/pages/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'AppStreamControlPanel',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: BLUE),

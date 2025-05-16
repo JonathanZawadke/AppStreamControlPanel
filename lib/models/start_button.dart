@@ -1,5 +1,5 @@
-import 'package:appstream_tool/classes/program.dart';
-import 'package:appstream_tool/constant.dart';
+import 'package:appstreamcontrolpanel/classes/program.dart';
+import 'package:appstreamcontrolpanel/constant.dart';
 import 'package:flutter/material.dart';
 
 class StartButton extends StatefulWidget {

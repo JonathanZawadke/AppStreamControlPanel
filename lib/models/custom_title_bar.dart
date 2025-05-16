@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:appstream_tool/constant.dart';
+import 'package:appstreamcontrolpanel/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 

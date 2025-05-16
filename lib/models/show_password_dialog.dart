@@ -1,4 +1,4 @@
-import 'package:appstream_tool/constant.dart';
+import 'package:appstreamcontrolpanel/constant.dart';
 import 'package:flutter/material.dart';
 
 void showPasswordDialog(BuildContext context, VoidCallback onCorrectPassword) {

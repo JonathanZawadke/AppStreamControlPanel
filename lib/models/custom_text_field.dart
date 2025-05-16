@@ -1,6 +1,6 @@
-import 'package:appstream_tool/global_variable.dart';
+import 'package:appstreamcontrolpanel/global_variable.dart';
 import 'package:flutter/material.dart';
-import 'package:appstream_tool/constant.dart';
+import 'package:appstreamcontrolpanel/constant.dart';
 
 // ignore: must_be_immutable
 class CustomTextField extends StatefulWidget {

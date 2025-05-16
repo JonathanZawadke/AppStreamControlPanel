@@ -1,7 +1,7 @@
-import 'package:appstream_tool/constant.dart';
-import 'package:appstream_tool/global_variable.dart';
-import 'package:appstream_tool/models/show_password_dialog.dart';
-import 'package:appstream_tool/pages/log_page.dart';
+import 'package:appstreamcontrolpanel/constant.dart';
+import 'package:appstreamcontrolpanel/global_variable.dart';
+import 'package:appstreamcontrolpanel/models/show_password_dialog.dart';
+import 'package:appstreamcontrolpanel/pages/log_page.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';

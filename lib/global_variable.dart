@@ -1,4 +1,4 @@
-import 'package:appstream_tool/classes/program.dart';
+import 'package:appstreamcontrolpanel/classes/program.dart';
 
 List<String> groupList = <String>['Alle anzeigen'];
 

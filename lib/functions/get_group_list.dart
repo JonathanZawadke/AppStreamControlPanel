@@ -1,5 +1,5 @@
-import 'package:appstream_tool/classes/program.dart';
-import 'package:appstream_tool/global_variable.dart';
+import 'package:appstreamcontrolpanel/classes/program.dart';
+import 'package:appstreamcontrolpanel/global_variable.dart';
 
 void getGroupList() {
   for (Program program in programs) {

@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:file_picker/file_picker.dart';
-import 'package:appstream_tool/constant.dart';
-import 'package:appstream_tool/global_variable.dart';
+import 'package:appstreamcontrolpanel/constant.dart';
+import 'package:appstreamcontrolpanel/global_variable.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:async';
-import 'package:appstream_tool/functions/write_log.dart';
+import 'package:appstreamcontrolpanel/functions/write_log.dart';
 import 'package:yaml/yaml.dart';
 
 Future<List<Map<String, dynamic>>> loadJsonFile(String path) async {

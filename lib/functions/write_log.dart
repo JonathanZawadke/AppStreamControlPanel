@@ -1,4 +1,4 @@
-import 'package:appstream_tool/global_variable.dart';
+import 'package:appstreamcontrolpanel/global_variable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void wirteLog(String logString) async {

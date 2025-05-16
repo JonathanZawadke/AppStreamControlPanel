@@ -1,4 +1,4 @@
-# appstream_tool
+# appstreamcontrolpanel
 
 A new Flutter project.
 

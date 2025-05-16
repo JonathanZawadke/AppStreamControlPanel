@@ -1,7 +1,7 @@
 import 'dart:typed_data';
-import 'package:appstream_tool/functions/write_log.dart';
+import 'package:appstreamcontrolpanel/functions/write_log.dart';
 import 'package:flutter/material.dart';
-import 'package:appstream_tool/constant.dart';
+import 'package:appstreamcontrolpanel/constant.dart';
 import 'package:http/http.dart' as http;
 
 class ProgrammButton extends StatefulWidget {
