@@ -34,5 +34,8 @@
     "language": "Language",
     "selected_file_path": "Selected file path:",
     "pick_json_file": "Pick json file",
-    "save_as": "Save as"
+    "save_as": "Save as",
+    "view_all": "show all",
+    "tools": "Tools",
+    "programs": "programs"
 }

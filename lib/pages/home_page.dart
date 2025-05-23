@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:appstreamcontrolpanel/classes/program.dart';
 import 'package:appstreamcontrolpanel/functions/get_group_list.dart';
+import 'package:appstreamcontrolpanel/functions/get_translated_dropdown_text.dart';
 import 'package:appstreamcontrolpanel/functions/load_json_file.dart';
 import 'package:appstreamcontrolpanel/functions/write_log.dart';
 import 'package:appstreamcontrolpanel/global_variable.dart';
@@ -292,7 +293,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(
-                                value,
+                                getTranslatedDropdownText(value, context),
                                 style: const TextStyle(color: Colors.black),
                               ),
                             );

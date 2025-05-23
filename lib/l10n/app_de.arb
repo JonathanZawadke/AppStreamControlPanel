@@ -34,5 +34,8 @@
     "language": "Sprache",
     "selected_file_path": "Ausgewählter Dateipfad:",
     "pick_json_file": "JSON-Datei auswählen",
-    "save_as": "Speichern unter"
+    "save_as": "Speichern unter",
+    "view_all": "Alle anzeigen",
+    "tools": "Tools",
+    "programs": "Programme"
 }
