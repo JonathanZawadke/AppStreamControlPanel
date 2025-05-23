@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:appstreamcontrolpanel/classes/program.dart';
 import 'package:appstreamcontrolpanel/functions/get_group_list.dart';
+import 'package:appstreamcontrolpanel/functions/get_translated_dropdown_text.dart';
 import 'package:appstreamcontrolpanel/functions/load_json_file.dart';
 import 'package:appstreamcontrolpanel/functions/write_log.dart';
 import 'package:appstreamcontrolpanel/global_variable.dart';
@@ -15,6 +16,7 @@ import 'package:appstreamcontrolpanel/constant.dart';
 import 'package:appstreamcontrolpanel/models/programm_button.dart';
 import 'package:gif/gif.dart';
 import 'dart:async';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -57,22 +59,23 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(BORDER_RADIUS)),
           ),
-          title: const Row(
+          title: Row(
             children: [
-              Padding(
+              const Padding(
                 padding: EdgeInsets.only(top: 3),
                 child: Icon(Icons.error),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Text(
-                'Fehler',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                AppLocalizations.of(context)!.error,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ],
           ),
-          content: Text("Das Programm $message kann nicht gestartet werden."),
+          content: Text(
+              "${AppLocalizations.of(context)!.the_program} $message ${AppLocalizations.of(context)!.cannot_be_started}."),
           actions: <Widget>[
             Material(
               color: BLUE,
@@ -81,13 +84,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 onTap: () {
                   Navigator.of(context).pop();
                 },
-                child: const SizedBox(
+                child: SizedBox(
                   height: 30,
                   width: 45,
                   child: Center(
                     child: Text(
-                      "OK",
-                      style: TextStyle(
+                      AppLocalizations.of(context)!.ok,
+                      style: const TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -110,14 +113,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(BORDER_RADIUS),
           ),
-          child: const Padding(
-            padding: EdgeInsets.all(16),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CircularProgressIndicator(),
-                SizedBox(width: 16),
-                Text("Laden..."),
+                const CircularProgressIndicator(),
+                const SizedBox(width: 16),
+                Text("${AppLocalizations.of(context)!.load}..."),
               ],
             ),
           ),
@@ -138,11 +141,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
         Navigator.of(context).pop();
 
-        wirteLog("${program.name} erfolgreich gestartet");
+        wirteLog(
+            "${program.name} ${AppLocalizations.of(context)!.started_successfully}");
       } catch (e) {
         Navigator.of(context).pop();
         wirteLog(
-            "[Error] program pfad für program: ${program.name} konnte nicht gefunden werden");
+            "${AppLocalizations.of(context)!.program_path_for_program}: ${program.name} ${AppLocalizations.of(context)!.could_not_be_found}");
         showErrorDialog(context, program.name);
       }
     }
@@ -159,7 +163,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   void filterProgramsByGroop(String group) {
     filterdPrograms.clear();
-    if (group == 'Alle anzeigen') {
+    if (group == "Alle anzeigen") {
       filterdPrograms = List.from(programs);
     } else {
       for (Program p in programs) {
@@ -190,7 +194,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         });
         countTrysToLoadJson++;
       } else {
-        wirteLog("filterdPrograms is empty");
+        wirteLog(AppLocalizations.of(context)!.filteredPrograms_is_empty);
       }
     }
     return Scaffold(
@@ -289,7 +293,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(
-                                value,
+                                getTranslatedDropdownText(value, context),
                                 style: const TextStyle(color: Colors.black),
                               ),
                             );
@@ -307,16 +311,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   height: 364,
                   width: 745,
                   child: filterdPrograms.isEmpty
-                      ? const Center(
+                      ? Center(
                           child: IntrinsicHeight(
                           child: Column(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.error_outline,
                                 color: Colors.red,
                               ),
-                              Text(
-                                  "Das Programm kann die Konfiguration nicht laden"),
+                              Text(AppLocalizations.of(context)!
+                                  .cannot_load_configuration),
                             ],
                           ),
                         ))
@@ -353,7 +357,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                             selectedPrograms
                                                 .add(filterdPrograms);
                                             wirteLog(
-                                                "User Selected ${filterdPrograms.name}");
+                                                "${AppLocalizations.of(context)!.user_selected} ${filterdPrograms.name}");
                                           }
                                         },
                                       );

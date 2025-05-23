@@ -1,5 +1,6 @@
 import 'package:appstreamcontrolpanel/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void showPasswordDialog(BuildContext context, VoidCallback onCorrectPassword) {
   TextEditingController passwordController = TextEditingController();
@@ -27,13 +28,15 @@ void showPasswordDialog(BuildContext context, VoidCallback onCorrectPassword) {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(BORDER_RADIUS),
             ),
-            title: const Text('Enter Password'),
+            title: Text(AppLocalizations.of(context)!.enter_password),
             content: TextField(
               controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
-                hintText: "Password",
-                errorText: isError ? 'Incorrect password' : null,
+                hintText: AppLocalizations.of(context)!.password,
+                errorText: isError
+                    ? AppLocalizations.of(context)!.incorrect_password
+                    : null,
                 border: const UnderlineInputBorder(),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
@@ -56,13 +59,13 @@ void showPasswordDialog(BuildContext context, VoidCallback onCorrectPassword) {
                   onTap: () {
                     Navigator.of(context).pop();
                   },
-                  child: const SizedBox(
+                  child: SizedBox(
                     height: 30,
                     width: 100,
                     child: Center(
                       child: Text(
-                        "Schließen",
-                        style: TextStyle(
+                        AppLocalizations.of(context)!.close,
+                        style: const TextStyle(
                             color: Colors.black, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -75,13 +78,13 @@ void showPasswordDialog(BuildContext context, VoidCallback onCorrectPassword) {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(BORDER_RADIUS),
                   onTap: () => submitAction(),
-                  child: const SizedBox(
+                  child: SizedBox(
                     height: 30,
                     width: 100,
                     child: Center(
                       child: Text(
-                        "Bestätigen",
-                        style: TextStyle(
+                        AppLocalizations.of(context)!.confirm,
+                        style: const TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
