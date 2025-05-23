@@ -1,6 +1,7 @@
 import 'package:appstreamcontrolpanel/global_variable.dart';
 import 'package:flutter/material.dart';
 import 'package:appstreamcontrolpanel/constant.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class CustomTextField extends StatefulWidget {
@@ -27,7 +28,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           fillColor: Colors.white,
           isDense: true,
           contentPadding: const EdgeInsets.symmetric(horizontal: 15.0),
-          hintText: "Suche...",
+          hintText: "${AppLocalizations.of(context)!.search}...",
           hintStyle: const TextStyle(
             fontSize: 18,
             color: Colors.black,

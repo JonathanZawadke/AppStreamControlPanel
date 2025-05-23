@@ -8,6 +8,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:appstreamcontrolpanel/classes/language_change_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key, required this.onJsonPathChange});
@@ -83,9 +84,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(
                   width: 10,
                 ),
-                const Text(
-                  'Einstellungen',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                Text(
+                  AppLocalizations.of(context)!.settings,
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const Expanded(child: SizedBox()),
                 IconButton(
@@ -132,8 +134,9 @@ class _SettingsPageState extends State<SettingsPage> {
                           decoration: BoxDecoration(
                               borderRadius:
                                   BorderRadius.circular(BORDER_RADIUS)),
-                          child: const Center(
-                            child: Text('Admin Einstellungen'),
+                          child: Center(
+                            child: Text(
+                                AppLocalizations.of(context)!.admin_settings),
                           ),
                         ),
                       ),
@@ -168,8 +171,9 @@ class _SettingsPageState extends State<SettingsPage> {
                           decoration: BoxDecoration(
                               borderRadius:
                                   BorderRadius.circular(BORDER_RADIUS)),
-                          child: const Center(
-                            child: Text('Protokolle anzeigen'),
+                          child: Center(
+                            child:
+                                Text(AppLocalizations.of(context)!.view_logs),
                           ),
                         ),
                       ),
@@ -194,8 +198,8 @@ class _SettingsPageState extends State<SettingsPage> {
                           decoration: BoxDecoration(
                               borderRadius:
                                   BorderRadius.circular(BORDER_RADIUS)),
-                          child: const Center(
-                            child: Text('Lnaguage'),
+                          child: Center(
+                            child: Text(AppLocalizations.of(context)!.language),
                           ),
                         ),
                       ),
@@ -224,8 +228,8 @@ class _SettingsPageState extends State<SettingsPage> {
                       child: Column(
                         children: [
                           const SizedBox(height: 20),
-                          const Text(
-                            'Selected file path:',
+                          Text(
+                            AppLocalizations.of(context)!.selected_file_path,
                           ),
                           Text(
                             jsonPath,
@@ -249,8 +253,10 @@ class _SettingsPageState extends State<SettingsPage> {
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(
                                             BORDER_RADIUS)),
-                                    child: const Center(
-                                        child: Text('Pick json File'))),
+                                    child: Center(
+                                        child: Text(
+                                            AppLocalizations.of(context)!
+                                                .pick_json_file))),
                               ),
                             ),
                           ),
@@ -334,13 +340,13 @@ class _SettingsPageState extends State<SettingsPage> {
                       }
                       Navigator.of(context).pop();
                     },
-                    child: const SizedBox(
+                    child: SizedBox(
                       height: 30,
                       width: 100,
                       child: Center(
                         child: Text(
-                          "Schließen",
-                          style: TextStyle(
+                          AppLocalizations.of(context)!.close,
+                          style: const TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                       ),

@@ -6,6 +6,7 @@ import 'package:appstreamcontrolpanel/global_variable.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LogPage extends StatefulWidget {
   LogPage({super.key});
@@ -38,7 +39,7 @@ class _LogPageState extends State<LogPage> {
   // Funktion zum Öffnen des Datei-Explorers und zum Auswählen des Speicherorts
   Future<String?> pickFilePath() async {
     final result = await FilePicker.platform.saveFile(
-      dialogTitle: 'Speichern unter',
+      dialogTitle: AppLocalizations.of(context)!.save_as,
       fileName: 'log.txt',
     );
     return result;
@@ -59,9 +60,10 @@ class _LogPageState extends State<LogPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Protokolle',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              Text(
+                AppLocalizations.of(context)!.protocols,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               IconButton(
                 icon: const Icon(Icons.close),
@@ -94,7 +96,7 @@ class _LogPageState extends State<LogPage> {
                           width: 135,
                           child: Row(
                             children: [
-                              const Text("Time"),
+                              Text(AppLocalizations.of(context)!.time),
                               const Expanded(child: SizedBox()),
                               isReversed
                                   ? Transform.rotate(
@@ -120,7 +122,7 @@ class _LogPageState extends State<LogPage> {
                       const SizedBox(
                         width: 10,
                       ),
-                      const Text("Text"),
+                      Text(AppLocalizations.of(context)!.text),
                       const Expanded(child: SizedBox()),
                       Material(
                         color: LIGHT_GRAY,
@@ -143,17 +145,17 @@ class _LogPageState extends State<LogPage> {
                                     borderRadius:
                                         BorderRadius.circular(BORDER_RADIUS),
                                   ),
-                                  title: const Row(children: [
-                                    Padding(
+                                  title: Row(children: [
+                                    const Padding(
                                       padding: EdgeInsets.only(top: 6),
                                       child: Icon(Icons.download),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Text(
-                                      'Download',
-                                      style: TextStyle(
+                                      AppLocalizations.of(context)!.download,
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold),
                                     )
                                   ]),
@@ -161,7 +163,8 @@ class _LogPageState extends State<LogPage> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       const SizedBox(height: 10),
-                                      const Text('Datei gespeichert unter:'),
+                                      Text(
+                                          '${AppLocalizations.of(context)!.file_saved_as}:'),
                                       Text(logPath),
                                       const SizedBox(height: 20),
                                     ],
@@ -184,17 +187,19 @@ class _LogPageState extends State<LogPage> {
                                                           .lastIndexOf('\\'));
                                               OpenFile.open(directory);
                                             },
-                                            child: const IntrinsicWidth(
+                                            child: IntrinsicWidth(
                                               child: SizedBox(
                                                 height: 30,
                                                 child: Center(
                                                   child: Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 15),
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 15),
                                                     child: Text(
-                                                      "Datei im Explorer öffnen",
-                                                      style: TextStyle(
+                                                      AppLocalizations.of(
+                                                              context)!
+                                                          .open_file_in_explorer,
+                                                      style: const TextStyle(
                                                           color: Colors.black,
                                                           fontWeight:
                                                               FontWeight.bold),
@@ -216,13 +221,14 @@ class _LogPageState extends State<LogPage> {
                                             onTap: () {
                                               Navigator.of(context).pop();
                                             },
-                                            child: const SizedBox(
+                                            child: SizedBox(
                                               height: 30,
                                               width: 100,
                                               child: Center(
                                                 child: Text(
-                                                  "Schließen",
-                                                  style: TextStyle(
+                                                  AppLocalizations.of(context)!
+                                                      .close,
+                                                  style: const TextStyle(
                                                       color: Colors.white,
                                                       fontWeight:
                                                           FontWeight.bold),
@@ -293,9 +299,10 @@ class _LogPageState extends State<LogPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(BORDER_RADIUS),
                         ),
-                        title: const Text('Möchtest du wirklich löschen?'),
-                        content: const Text(
-                            'Diese Aktion kann nicht rückgängig gemacht werden.'),
+                        title:
+                            Text(AppLocalizations.of(context)!.really_delete),
+                        content: Text(
+                            AppLocalizations.of(context)!.cannot_be_undone),
                         actions: <Widget>[
                           Material(
                             //color: Colors.red,
@@ -306,13 +313,13 @@ class _LogPageState extends State<LogPage> {
                               onTap: () {
                                 Navigator.of(context).pop(false);
                               },
-                              child: const SizedBox(
+                              child: SizedBox(
                                 height: 30,
                                 width: 100,
                                 child: Center(
                                   child: Text(
-                                    "Abbrechen",
-                                    style: TextStyle(
+                                    AppLocalizations.of(context)!.cancel,
+                                    style: const TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -329,13 +336,13 @@ class _LogPageState extends State<LogPage> {
                               onTap: () {
                                 Navigator.of(context).pop(true);
                               },
-                              child: const SizedBox(
+                              child: SizedBox(
                                 height: 30,
                                 width: 100,
                                 child: Center(
                                   child: Text(
-                                    "Löschen",
-                                    style: TextStyle(
+                                    AppLocalizations.of(context)!.delete,
+                                    style: const TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -360,25 +367,25 @@ class _LogPageState extends State<LogPage> {
                     }
                   });
                 },
-                child: const SizedBox(
-                  width: 110,
-                  height: 26,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "Clear Log",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Icon(Icons.delete),
-                    ],
-                  ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      AppLocalizations.of(context)!.clear_log,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    const Icon(Icons.delete),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                  ],
                 ),
               ),
             ),

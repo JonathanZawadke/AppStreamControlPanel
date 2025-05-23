@@ -1,6 +1,7 @@
 import 'package:appstreamcontrolpanel/classes/program.dart';
 import 'package:appstreamcontrolpanel/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StartButton extends StatefulWidget {
   const StartButton({
@@ -32,7 +33,7 @@ class _StartButtonState extends State<StartButton> {
           width: 159,
           child: Center(
             child: Text(
-              'Start',
+              AppLocalizations.of(context)!.start,
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
