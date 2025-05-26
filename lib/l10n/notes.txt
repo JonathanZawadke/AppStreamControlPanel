@@ -1,0 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+Text(AppLocalizations.of(context)!.test),
+
+flutter gen-l10n

@@ -1,3 +1,4 @@
+import 'package:appstreamcontrolpanel/classes/languages_map_entry.dart';
 import 'package:appstreamcontrolpanel/constant.dart';
 import 'package:appstreamcontrolpanel/global_variable.dart';
 import 'package:appstreamcontrolpanel/models/show_password_dialog.dart';
@@ -5,6 +6,9 @@ import 'package:appstreamcontrolpanel/pages/log_page.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+import 'package:appstreamcontrolpanel/classes/language_change_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key, required this.onJsonPathChange});
@@ -15,8 +19,34 @@ class SettingsPage extends StatefulWidget {
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
+enum SettingsView { none, language, admin }
+
 class _SettingsPageState extends State<SettingsPage> {
-  bool adminSettingsVisible = false;
+  var currentView = SettingsView.none;
+
+  int selectedLanguageIndex = 0;
+  String selectedLanguageString = 'en';
+
+  static List<LanguagesMapEntry> LANGUAGES = [
+    LanguagesMapEntry('de', 'Deutsch'),
+    LanguagesMapEntry('en', 'English'),
+  ];
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    selectedLanguageString =
+        Provider.of<LanguageChangeProvider>(context, listen: true)
+            .currentLocale
+            .toString();
+    selectedLanguageIndex = LANGUAGES
+        .indexWhere((element) => element.key == selectedLanguageString);
+  }
+
+  void changeLanguage() {
+    context.read<LanguageChangeProvider>().changeLocale(selectedLanguageString);
+  }
 
   Future<void> pickFile() async {
     final result = await FilePicker.platform.pickFiles(
@@ -54,14 +84,22 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(
                   width: 10,
                 ),
-                const Text(
-                  'Einstellungen',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                Text(
+                  AppLocalizations.of(context)!.settings,
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const Expanded(child: SizedBox()),
                 IconButton(
                   icon: const Icon(Icons.close),
                   onPressed: () {
+                    if (selectedLanguageString !=
+                        Provider.of<LanguageChangeProvider>(context,
+                                listen: false)
+                            .currentLocale
+                            .toString()) {
+                      changeLanguage();
+                    }
                     Navigator.of(context).pop();
                   },
                 ),
@@ -85,7 +123,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         onTap: () {
                           showPasswordDialog(context, () {
                             setState(() {
-                              adminSettingsVisible = true;
+                              currentView = SettingsView.admin;
                             });
                           });
                         },
@@ -96,8 +134,9 @@ class _SettingsPageState extends State<SettingsPage> {
                           decoration: BoxDecoration(
                               borderRadius:
                                   BorderRadius.circular(BORDER_RADIUS)),
-                          child: const Center(
-                            child: Text('Admin Einstellungen'),
+                          child: Center(
+                            child: Text(
+                                AppLocalizations.of(context)!.admin_settings),
                           ),
                         ),
                       ),
@@ -132,14 +171,41 @@ class _SettingsPageState extends State<SettingsPage> {
                           decoration: BoxDecoration(
                               borderRadius:
                                   BorderRadius.circular(BORDER_RADIUS)),
-                          child: const Center(
-                            child: Text('Protokolle anzeigen'),
+                          child: Center(
+                            child:
+                                Text(AppLocalizations.of(context)!.view_logs),
                           ),
                         ),
                       ),
                     ),
                     const SizedBox(
-                      height: 160,
+                      height: 5,
+                    ),
+                    Material(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                      child: InkWell(
+                        hoverColor: YELLOW_HOVER,
+                        onTap: () {
+                          setState(() {
+                            currentView = SettingsView.language;
+                          });
+                        },
+                        borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                        child: Container(
+                          height: 40,
+                          width: 150,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.circular(BORDER_RADIUS)),
+                          child: Center(
+                            child: Text(AppLocalizations.of(context)!.language),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 115,
                     )
                   ],
                 ),
@@ -152,7 +218,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 Visibility(
-                  visible: adminSettingsVisible,
+                  visible: currentView == SettingsView.admin,
                   child: Expanded(
                     child: Container(
                       height: 250,
@@ -162,8 +228,8 @@ class _SettingsPageState extends State<SettingsPage> {
                       child: Column(
                         children: [
                           const SizedBox(height: 20),
-                          const Text(
-                            'Selected file path:',
+                          Text(
+                            AppLocalizations.of(context)!.selected_file_path,
                           ),
                           Text(
                             jsonPath,
@@ -187,13 +253,49 @@ class _SettingsPageState extends State<SettingsPage> {
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(
                                             BORDER_RADIUS)),
-                                    child: const Center(
-                                        child: Text('Pick json File'))),
+                                    child: Center(
+                                        child: Text(
+                                            AppLocalizations.of(context)!
+                                                .pick_json_file))),
                               ),
                             ),
                           ),
                         ],
                       ),
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: currentView == SettingsView.language,
+                  child: Expanded(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 250,
+                          child: ListView.builder(
+                            itemCount: LANGUAGES.length,
+                            itemBuilder: (context, index) {
+                              return CheckboxListTile(
+                                title: Text(
+                                  LANGUAGES[index].value,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                value: index == selectedLanguageIndex
+                                    ? true
+                                    : false,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    selectedLanguageIndex = index;
+                                  });
+                                  selectedLanguageString = LANGUAGES[index].key;
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -229,15 +331,22 @@ class _SettingsPageState extends State<SettingsPage> {
                   borderRadius: BorderRadius.circular(BORDER_RADIUS),
                   child: InkWell(
                     onTap: () {
+                      if (selectedLanguageString !=
+                          Provider.of<LanguageChangeProvider>(context,
+                                  listen: false)
+                              .currentLocale
+                              .toString()) {
+                        changeLanguage();
+                      }
                       Navigator.of(context).pop();
                     },
-                    child: const SizedBox(
+                    child: SizedBox(
                       height: 30,
                       width: 100,
                       child: Center(
                         child: Text(
-                          "Schließen",
-                          style: TextStyle(
+                          AppLocalizations.of(context)!.close,
+                          style: const TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                       ),
