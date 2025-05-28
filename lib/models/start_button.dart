@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:appstreamcontrolpanel/classes/program.dart';
 import 'package:appstreamcontrolpanel/constant.dart';
 import 'package:flutter/material.dart';
@@ -32,14 +34,19 @@ class _StartButtonState extends State<StartButton> {
           height: 40,
           width: 159,
           child: Center(
-            child: Text(
-              AppLocalizations.of(context)!.start,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: widget.selectedPrograms.isNotEmpty
-                      ? Colors.black
-                      : START_TEXT),
+            child: Padding(
+              padding: EdgeInsets.only(bottom: Platform.isWindows ? 5 : 0),
+              child: Text(
+                AppLocalizations.of(context)!.start,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    height: 1.0,
+                    leadingDistribution: TextLeadingDistribution.even,
+                    color: widget.selectedPrograms.isNotEmpty
+                        ? Colors.black
+                        : START_TEXT),
+              ),
             ),
           ),
         ),
