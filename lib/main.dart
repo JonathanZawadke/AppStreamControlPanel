@@ -32,7 +32,9 @@ void main() async {
 
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   jsonPath = prefs.getString('json_path') ??
-      'C:\\Mentz GmbH\\Com\\Scripts\\Programs.json';
+      (Platform.isWindows
+          ? 'C:\\Mentz GmbH\\Com\\Scripts\\Programs.json'
+          : '/scripts/programs.json');
 
   runApp(
     ChangeNotifierProvider<LanguageChangeProvider>.value(
