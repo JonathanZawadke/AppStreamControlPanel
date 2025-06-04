@@ -107,6 +107,10 @@ This file contains the list of applications. It should be structured as follows:
 ]
 ```
 
+## 📸 Screenshot
+
+<img src="assets/preview_image.png" width="800">
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to create an Issue to report bugs or suggest new features. If you'd like to contribute code, please open a Pull Request.
