@@ -198,223 +198,225 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       }
     }
     return Scaffold(
-        body: Center(
-      child: SafeArea(
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 30.0),
-              child: Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/Popup_Background.png"),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ),
-
-            Visibility(
-              visible: isVisible,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 52.5, left: 22.8),
-                child: //Container(height: 30, width: 128, color: Colors.green),
-                    Gif(
-                  height: 29,
-                  width: 125.5,
-                  fit: BoxFit.fill,
-                  placeholder: (context) {
-                    return Container(
-                        height: 30, width: 125.5, color: DARK_GRAY);
-                  },
-                  image: const AssetImage("assets/MENTZ_LOGO_GIF.gif"),
-                  controller: controller,
-                  autostart: Autostart.no,
-                  onFetchCompleted: () {
-                    controller.reset();
-                    controller.forward();
-                  },
-                ),
-              ),
-            ),
-
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 52, right: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      CustomTextField(
-                        onChanged: () {
-                          setState(() {
-                            filterProgramsByName(searchString);
-                          });
-                        },
-                      ),
-                      const SizedBox(
-                        width: 15,
-                      ),
-                      // filter Programs Groop -----------------------------------------------
-                      Container(
-                        height: 35,
-                        width: 175,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(BORDER_RADIUS)),
-                        child: DropdownButton<String>(
-                          value: dropdownValue,
-                          icon: Transform.rotate(
-                            angle: 90 * pi / 180,
-                            child: const Icon(
-                              Icons.arrow_forward_ios,
-                              color: Colors.black,
-                            ),
-                          ),
-                          style: const TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          borderRadius: BorderRadius.circular(BORDER_RADIUS),
-                          isExpanded: true,
-                          padding: const EdgeInsets.only(left: 15, right: 8),
-                          underline: Container(
-                            color: Colors.transparent,
-                          ),
-                          onChanged: (String? value) {
-                            setState(() {
-                              dropdownValue = value!;
-                              filterProgramsByGroop(dropdownValue);
-                            });
-                          },
-                          items: groupList
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                getTranslatedDropdownText(value, context),
-                                style: const TextStyle(color: Colors.black),
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                // Programm Buttons ------------------------------------
-                SizedBox(
-                  height: 364,
-                  width: 745,
-                  child: filterdPrograms.isEmpty
-                      ? Center(
-                          child: IntrinsicHeight(
-                          child: Column(
-                            children: [
-                              const Icon(
-                                Icons.error_outline,
-                                color: Colors.red,
-                              ),
-                              Text(AppLocalizations.of(context)!
-                                  .cannot_load_configuration),
-                            ],
-                          ),
-                        ))
-                      : Padding(
-                          padding: const EdgeInsets.all(0),
-                          child: Container(
-                            constraints: const BoxConstraints(
-                              maxHeight: 364,
-                            ),
-                            alignment: Alignment.topLeft,
-                            child: SingleChildScrollView(
-                              child: Wrap(
-                                spacing: 15.0,
-                                runSpacing: 20.0,
-                                children:
-                                    filterdPrograms.map((filterdPrograms) {
-                                  return ProgrammButton(
-                                    key: ValueKey(filterdPrograms.id),
-                                    name: filterdPrograms.name,
-                                    image: filterdPrograms.icon,
-                                    initialIsSelected: allDeselected
-                                        ? false
-                                        : selectedPrograms
-                                            .contains(filterdPrograms),
-                                    onTap: () {
-                                      setState(
-                                        () {
-                                          if (selectedPrograms
-                                              .contains(filterdPrograms)) {
-                                            selectedPrograms
-                                                .remove(filterdPrograms);
-                                          } else {
-                                            allDeselected = false;
-                                            selectedPrograms
-                                                .add(filterdPrograms);
-                                            wirteLog(
-                                                "${AppLocalizations.of(context)!.user_selected} ${filterdPrograms.name}");
-                                          }
-                                        },
-                                      );
-                                    },
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                          ),
-                        ),
-                ),
-                const SizedBox(
-                  height: 32,
-                ),
-                // Start Button ---------------------------------------------------
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: StartButton(
-                      selectedPrograms: selectedPrograms,
-                      onTap: () {
-                        startPrograms().then((_) {
-                          setState(() {
-                            allDeselected = true;
-                            selectedPrograms.clear();
-                          });
-                        });
-                      },
+      body: Center(
+        child: SafeArea(
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 30.0),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/Popup_Background.png"),
+                      fit: BoxFit.cover,
                     ),
                   ),
-                )
-              ],
-            ),
-            // Title Bar ----------------------------------------------------------
-            CustomTitleBar(
-              onSettingsTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Dialog(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(BORDER_RADIUS),
-                      ),
-                      child: SettingsPage(
-                        onJsonPathChange: (String result) {
-                          loadJsonData();
+                ),
+              ),
+
+              Visibility(
+                visible: isVisible,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 52.5, left: 22.8),
+                  child: //Container(height: 30, width: 128, color: Colors.green),
+                      Gif(
+                    height: 29,
+                    width: 125.5,
+                    fit: BoxFit.fill,
+                    placeholder: (context) {
+                      return Container(
+                          height: 30, width: 125.5, color: DARK_GRAY);
+                    },
+                    image: const AssetImage("assets/MENTZ_LOGO_GIF.gif"),
+                    controller: controller,
+                    autostart: Autostart.no,
+                    onFetchCompleted: () {
+                      controller.reset();
+                      controller.forward();
+                    },
+                  ),
+                ),
+              ),
+
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 52, right: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        CustomTextField(
+                          onChanged: () {
+                            setState(() {
+                              filterProgramsByName(searchString);
+                            });
+                          },
+                        ),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        // filter Programs Groop -----------------------------------------------
+                        Container(
+                          height: 35,
+                          width: 175,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                          ),
+                          child: DropdownButton<String>(
+                            value: dropdownValue,
+                            icon: Transform.rotate(
+                              angle: 90 * pi / 180,
+                              child: const Icon(
+                                Icons.arrow_forward_ios,
+                                color: Colors.black,
+                              ),
+                            ),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                            isExpanded: true,
+                            padding: const EdgeInsets.only(left: 15, right: 8),
+                            underline: Container(
+                              color: Colors.transparent,
+                            ),
+                            onChanged: (String? value) {
+                              setState(() {
+                                dropdownValue = value!;
+                                filterProgramsByGroop(dropdownValue);
+                              });
+                            },
+                            items: groupList
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  getTranslatedDropdownText(value, context),
+                                  style: const TextStyle(color: Colors.black),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  // Programm Buttons ------------------------------------
+                  SizedBox(
+                    height: 364,
+                    width: 745,
+                    child: filterdPrograms.isEmpty
+                        ? Center(
+                            child: IntrinsicHeight(
+                            child: Column(
+                              children: [
+                                const Icon(
+                                  Icons.error_outline,
+                                  color: Colors.red,
+                                ),
+                                Text(AppLocalizations.of(context)!
+                                    .cannot_load_configuration),
+                              ],
+                            ),
+                          ))
+                        : Padding(
+                            padding: const EdgeInsets.all(0),
+                            child: Container(
+                              constraints: const BoxConstraints(
+                                maxHeight: 364,
+                              ),
+                              alignment: Alignment.topLeft,
+                              child: SingleChildScrollView(
+                                child: Wrap(
+                                  spacing: 15.0,
+                                  runSpacing: 20.0,
+                                  children:
+                                      filterdPrograms.map((filterdPrograms) {
+                                    return ProgrammButton(
+                                      key: ValueKey(filterdPrograms.id),
+                                      name: filterdPrograms.name,
+                                      image: filterdPrograms.icon,
+                                      initialIsSelected: allDeselected
+                                          ? false
+                                          : selectedPrograms
+                                              .contains(filterdPrograms),
+                                      onTap: () {
+                                        setState(
+                                          () {
+                                            if (selectedPrograms
+                                                .contains(filterdPrograms)) {
+                                              selectedPrograms
+                                                  .remove(filterdPrograms);
+                                            } else {
+                                              allDeselected = false;
+                                              selectedPrograms
+                                                  .add(filterdPrograms);
+                                              wirteLog(
+                                                  "${AppLocalizations.of(context)!.user_selected} ${filterdPrograms.name}");
+                                            }
+                                          },
+                                        );
+                                      },
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ),
+                          ),
+                  ),
+                  const SizedBox(
+                    height: 32,
+                  ),
+                  // Start Button ---------------------------------------------------
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 15),
+                      child: StartButton(
+                        selectedPrograms: selectedPrograms,
+                        onTap: () {
+                          startPrograms().then((_) {
+                            setState(() {
+                              allDeselected = true;
+                              selectedPrograms.clear();
+                            });
+                          });
                         },
                       ),
-                    );
-                  },
-                );
-              },
-            ),
-          ],
+                    ),
+                  )
+                ],
+              ),
+              // Title Bar ----------------------------------------------------------
+              CustomTitleBar(
+                onSettingsTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Dialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                        ),
+                        child: SettingsPage(
+                          onJsonPathChange: (String result) {
+                            loadJsonData();
+                          },
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }
