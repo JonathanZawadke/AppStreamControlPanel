@@ -1,4 +1,5 @@
-import 'package:appstreamcontrolpanel/constant.dart';
+import 'package:appstreamcontrolpanel/constants/app_colors.dart';
+import 'package:appstreamcontrolpanel/constants/ui_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -24,9 +25,9 @@ void showPasswordDialog(BuildContext context, VoidCallback onCorrectPassword) {
           }
 
           return AlertDialog(
-            backgroundColor: LIGHT_GRAY,
+            backgroundColor: AppColors.lightGray,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(BORDER_RADIUS),
+              borderRadius: BorderRadius.circular(borderRadius),
             ),
             title: Text(AppLocalizations.of(context)!.enter_password),
             content: TextField(
@@ -40,7 +41,7 @@ void showPasswordDialog(BuildContext context, VoidCallback onCorrectPassword) {
                 border: const UnderlineInputBorder(),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
-                    color: isError ? Colors.red : Colors.blue,
+                    color: isError ? Colors.red : AppColors.blue,
                   ),
                 ),
                 enabledBorder: UnderlineInputBorder(
@@ -53,9 +54,9 @@ void showPasswordDialog(BuildContext context, VoidCallback onCorrectPassword) {
             ),
             actions: [
               Material(
-                borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                borderRadius: BorderRadius.circular(borderRadius),
                 child: InkWell(
-                  borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                  borderRadius: BorderRadius.circular(borderRadius),
                   onTap: () {
                     Navigator.of(context).pop();
                   },
@@ -73,10 +74,10 @@ void showPasswordDialog(BuildContext context, VoidCallback onCorrectPassword) {
                 ),
               ),
               Material(
-                color: BLUE,
-                borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                color: AppColors.blue,
+                borderRadius: BorderRadius.circular(borderRadius),
                 child: InkWell(
-                  borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                  borderRadius: BorderRadius.circular(borderRadius),
                   onTap: () => submitAction(),
                   child: SizedBox(
                     height: 30,

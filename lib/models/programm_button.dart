@@ -1,8 +1,10 @@
 import 'dart:typed_data';
-import 'package:appstreamcontrolpanel/functions/write_log.dart';
+import 'package:appstreamcontrolpanel/constants/app_colors.dart';
+import 'package:appstreamcontrolpanel/state/app_state.dart';
 import 'package:flutter/material.dart';
-import 'package:appstreamcontrolpanel/constant.dart';
+import 'package:appstreamcontrolpanel/constants/ui_constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class ProgrammButton extends StatefulWidget {
   final String name;
@@ -24,11 +26,13 @@ class ProgrammButton extends StatefulWidget {
 
 class _ProgrammButtonState extends State<ProgrammButton> {
   late bool isSelected;
+  late AppState appState;
   Uint8List? imageBytes;
 
   @override
   void initState() {
     super.initState();
+    appState = Provider.of<AppState>(context, listen: false);
     isSelected = widget.initialIsSelected;
     loadImage();
   }
@@ -52,20 +56,20 @@ class _ProgrammButtonState extends State<ProgrammButton> {
           imageBytes = response.bodyBytes;
         });
       } else {
-        wirteLog('[Error] Failed to load image ${widget.image}');
+        appState.wirteLog('[Error] Failed to load image ${widget.image}');
       }
     } catch (e) {
-      wirteLog('[Error] Failed to load image ${widget.image} ${e}');
+      appState.wirteLog('[Error] Failed to load image ${widget.image} ${e}');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      borderRadius: BorderRadius.circular(BORDER_RADIUS),
+      borderRadius: BorderRadius.circular(borderRadius),
       child: InkWell(
-        borderRadius: BorderRadius.circular(BORDER_RADIUS),
-        hoverColor: YELLOW_HOVER,
+        borderRadius: BorderRadius.circular(borderRadius),
+        hoverColor: AppColors.yellowHover,
         onTap: () {
           setState(() {
             isSelected = !isSelected;
@@ -76,9 +80,9 @@ class _ProgrammButtonState extends State<ProgrammButton> {
           height: 76,
           width: 175,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(BORDER_RADIUS),
+            borderRadius: BorderRadius.circular(borderRadius),
             border: isSelected
-                ? Border.all(width: 3, color: BLUE)
+                ? Border.all(width: 3, color: AppColors.blue)
                 : Border.all(width: 3, color: Colors.transparent),
             gradient: isSelected
                 ? const LinearGradient(
@@ -86,7 +90,7 @@ class _ProgrammButtonState extends State<ProgrammButton> {
                     begin: Alignment(1.5, 0),
                     end: Alignment(1.1, 1),
                     colors: [
-                      BLUE,
+                      AppColors.blue,
                       Colors.transparent,
                     ],
                   )

@@ -1,18 +1,17 @@
+import 'package:appstreamcontrolpanel/app.dart';
 import 'package:appstreamcontrolpanel/classes/language_change_provider.dart';
-import 'package:appstreamcontrolpanel/constant.dart';
-import 'package:appstreamcontrolpanel/global_variable.dart';
+import 'package:appstreamcontrolpanel/state/app_state.dart';
 import 'package:flutter/material.dart';
-import 'package:appstreamcontrolpanel/pages/home_page.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:io' show Platform;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
+
+  final appState = AppState();
   WindowOptions windowOptions = const WindowOptions(
     size: Size(815, 588),
     minimumSize: Size(852, 632),
@@ -31,42 +30,20 @@ void main() async {
   });
 
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  jsonPath = prefs.getString('json_path') ??
+  appState.jsonPath = prefs.getString('json_path') ??
       (Platform.isWindows
           ? 'C:\\Mentz GmbH\\Com\\Scripts\\Programs.json'
           : '/scripts/programs.json');
 
   runApp(
-    ChangeNotifierProvider<LanguageChangeProvider>.value(
-      value: languageProvider,
-      child: const MyApp(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<LanguageChangeProvider>.value(
+          value: languageProvider,
+        ),
+        ChangeNotifierProvider<AppState>.value(value: appState),
+      ],
+      child: const AppStreamControlPanelApp(),
     ),
   );
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    var languageProvider = Provider.of<LanguageChangeProvider>(context);
-
-    return MaterialApp(
-      title: 'AppStreamControlPanel',
-      debugShowCheckedModeBanner: false,
-      locale: languageProvider.currentLocale,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [Locale('en'), Locale('de')],
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: BLUE),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(),
-    );
-  }
 }

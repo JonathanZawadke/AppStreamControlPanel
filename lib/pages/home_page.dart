@@ -2,41 +2,43 @@ import 'dart:isolate';
 import 'dart:io';
 import 'dart:math';
 import 'package:appstreamcontrolpanel/classes/program.dart';
-import 'package:appstreamcontrolpanel/functions/get_group_list.dart';
+import 'package:appstreamcontrolpanel/constants/app_colors.dart';
 import 'package:appstreamcontrolpanel/functions/get_translated_dropdown_text.dart';
-import 'package:appstreamcontrolpanel/functions/load_json_file.dart';
-import 'package:appstreamcontrolpanel/functions/write_log.dart';
-import 'package:appstreamcontrolpanel/global_variable.dart';
 import 'package:appstreamcontrolpanel/models/custom_title_bar.dart';
 import 'package:appstreamcontrolpanel/models/start_button.dart';
 import 'package:appstreamcontrolpanel/pages/settings.dart';
+import 'package:appstreamcontrolpanel/state/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:appstreamcontrolpanel/models/custom_text_field.dart';
-import 'package:appstreamcontrolpanel/constant.dart';
+import 'package:appstreamcontrolpanel/constants/ui_constants.dart';
 import 'package:appstreamcontrolpanel/models/programm_button.dart';
 import 'package:gif/gif.dart';
 import 'dart:async';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   List<Program> selectedPrograms = [];
   bool isLoading = false;
   bool allDeselected = true;
 
   late final GifController controller;
+  late AppState appState;
+  late String dropdownValue;
   bool isVisible = true;
 
   int countTrysToLoadJson = 0;
 
   @override
   void initState() {
+    appState = Provider.of<AppState>(context, listen: false);
     controller = GifController(vsync: this);
     controller.addListener(() {
       if (controller.isCompleted) {
@@ -47,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     });
     super.initState();
     loadJsonData();
+    dropdownValue = appState.groupList.first;
   }
 
   void showErrorDialog(BuildContext context, String message) {
@@ -55,9 +58,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: LIGHT_GRAY,
+          backgroundColor: AppColors.lightGray,
           shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(BORDER_RADIUS)),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
           ),
           title: Row(
             children: [
@@ -78,8 +81,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               "${AppLocalizations.of(context)!.the_program} $message ${AppLocalizations.of(context)!.cannot_be_started}."),
           actions: <Widget>[
             Material(
-              color: BLUE,
-              borderRadius: BorderRadius.circular(BORDER_RADIUS),
+              color: AppColors.blue,
+              borderRadius: BorderRadius.circular(borderRadius),
               child: InkWell(
                 onTap: () {
                   Navigator.of(context).pop();
@@ -109,9 +112,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return Dialog(
-          backgroundColor: LIGHT_GRAY,
+          backgroundColor: AppColors.lightGray,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(BORDER_RADIUS),
+            borderRadius: BorderRadius.circular(borderRadius),
           ),
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -141,11 +144,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
         Navigator.of(context).pop();
 
-        wirteLog(
+        appState.wirteLog(
             "${program.name} ${AppLocalizations.of(context)!.started_successfully}");
       } catch (e) {
         Navigator.of(context).pop();
-        wirteLog(
+        appState.wirteLog(
             "${AppLocalizations.of(context)!.program_path_for_program}: ${program.name} ${AppLocalizations.of(context)!.could_not_be_found}");
         showErrorDialog(context, program.name);
       }
@@ -153,48 +156,48 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   Future<void> loadJsonData() async {
-    final data = await loadJsonFile(jsonPath);
+    final data = await appState.loadJsonFile(appState.jsonPath);
     setState(() {
-      programs = data.map((item) => Program.fromJson(item)).toList();
-      filterdPrograms = List.from(programs);
-      getGroupList();
+      appState.programs = data.map((item) => Program.fromJson(item)).toList();
+      appState.filterdPrograms = List.from(appState.programs);
+      appState.getGroupList();
     });
   }
 
   void filterProgramsByGroop(String group) {
-    filterdPrograms.clear();
+    appState.filterdPrograms.clear();
     if (group == "Alle anzeigen") {
-      filterdPrograms = List.from(programs);
+      appState.filterdPrograms = List.from(appState.programs);
     } else {
-      for (Program p in programs) {
+      for (Program p in appState.programs) {
         if (p.group == group) {
-          filterdPrograms.add(p);
+          appState.filterdPrograms.add(p);
         }
       }
     }
   }
 
   void filterProgramsByName(String searchString) {
-    filterdPrograms.clear();
+    appState.filterdPrograms.clear();
 
-    for (Program p in programs) {
+    for (Program p in appState.programs) {
       if (p.name.toLowerCase().contains(searchString.toLowerCase())) {
-        filterdPrograms.add(p);
+        appState.filterdPrograms.add(p);
       }
     }
   }
 
-  String dropdownValue = groupList.first;
   @override
   Widget build(BuildContext context) {
-    if (filterdPrograms.isEmpty) {
+    if (appState.filterdPrograms.isEmpty) {
       if (countTrysToLoadJson <= 15) {
         Future.delayed(const Duration(seconds: 5), () {
           loadJsonData();
         });
         countTrysToLoadJson++;
       } else {
-        wirteLog(AppLocalizations.of(context)!.filteredPrograms_is_empty);
+        appState
+            .wirteLog(AppLocalizations.of(context)!.filteredPrograms_is_empty);
       }
     }
     return Scaffold(
@@ -225,7 +228,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     fit: BoxFit.fill,
                     placeholder: (context) {
                       return Container(
-                          height: 30, width: 125.5, color: DARK_GRAY);
+                          height: 30, width: 125.5, color: AppColors.darkGray);
                     },
                     image: const AssetImage("assets/MENTZ_LOGO_GIF.gif"),
                     controller: controller,
@@ -248,7 +251,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         CustomTextField(
                           onChanged: () {
                             setState(() {
-                              filterProgramsByName(searchString);
+                              filterProgramsByName(appState.searchString);
                             });
                           },
                         ),
@@ -261,7 +264,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           width: 175,
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                            borderRadius: BorderRadius.circular(borderRadius),
                           ),
                           child: DropdownButton<String>(
                             value: dropdownValue,
@@ -277,7 +280,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               color: Colors.black,
                               fontWeight: FontWeight.w500,
                             ),
-                            borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                            borderRadius: BorderRadius.circular(borderRadius),
                             isExpanded: true,
                             padding: const EdgeInsets.only(left: 15, right: 8),
                             underline: Container(
@@ -289,7 +292,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 filterProgramsByGroop(dropdownValue);
                               });
                             },
-                            items: groupList
+                            items: appState.groupList
                                 .map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -311,7 +314,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   SizedBox(
                     height: 364,
                     width: 745,
-                    child: filterdPrograms.isEmpty
+                    child: appState.filterdPrograms.isEmpty
                         ? Center(
                             child: IntrinsicHeight(
                             child: Column(
@@ -336,8 +339,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 child: Wrap(
                                   spacing: 15.0,
                                   runSpacing: 20.0,
-                                  children:
-                                      filterdPrograms.map((filterdPrograms) {
+                                  children: appState.filterdPrograms
+                                      .map((filterdPrograms) {
                                     return ProgrammButton(
                                       key: ValueKey(filterdPrograms.id),
                                       name: filterdPrograms.name,
@@ -357,7 +360,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                               allDeselected = false;
                                               selectedPrograms
                                                   .add(filterdPrograms);
-                                              wirteLog(
+                                              appState.wirteLog(
                                                   "${AppLocalizations.of(context)!.user_selected} ${filterdPrograms.name}");
                                             }
                                           },
@@ -401,7 +404,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     builder: (BuildContext context) {
                       return Dialog(
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                          borderRadius: BorderRadius.circular(borderRadius),
                         ),
                         child: SettingsPage(
                           onJsonPathChange: (String result) {
