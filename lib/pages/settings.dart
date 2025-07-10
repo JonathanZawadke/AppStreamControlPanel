@@ -1,8 +1,8 @@
 import 'package:appstreamcontrolpanel/classes/languages_map_entry.dart';
 import 'package:appstreamcontrolpanel/constant.dart';
-import 'package:appstreamcontrolpanel/global_variable.dart';
 import 'package:appstreamcontrolpanel/models/show_password_dialog.dart';
 import 'package:appstreamcontrolpanel/pages/log_page.dart';
+import 'package:appstreamcontrolpanel/state/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,6 +24,8 @@ enum SettingsView { none, language, admin }
 class _SettingsPageState extends State<SettingsPage> {
   var currentView = SettingsView.none;
 
+  late AppState appState;
+
   int selectedLanguageIndex = 0;
   String selectedLanguageString = 'en';
 
@@ -35,6 +37,8 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
+    appState = Provider.of<AppState>(context, listen: false);
 
     selectedLanguageString =
         Provider.of<LanguageChangeProvider>(context, listen: true)
@@ -56,11 +60,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
     if (result != null && result.files.single.path != null) {
       setState(() {
-        jsonPath = result.files.single.path!;
+        appState.jsonPath = result.files.single.path!;
       });
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('json_path', jsonPath);
-      widget.onJsonPathChange(jsonPath);
+      await prefs.setString('json_path', appState.jsonPath);
+      widget.onJsonPathChange(appState.jsonPath);
     }
   }
 
@@ -232,7 +236,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             AppLocalizations.of(context)!.selected_file_path,
                           ),
                           Text(
-                            jsonPath,
+                            appState.jsonPath,
                           ),
                           const SizedBox(height: 40),
                           Center(

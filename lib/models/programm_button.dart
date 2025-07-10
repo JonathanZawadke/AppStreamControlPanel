@@ -1,8 +1,9 @@
 import 'dart:typed_data';
-import 'package:appstreamcontrolpanel/functions/write_log.dart';
+import 'package:appstreamcontrolpanel/state/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:appstreamcontrolpanel/constant.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class ProgrammButton extends StatefulWidget {
   final String name;
@@ -24,11 +25,13 @@ class ProgrammButton extends StatefulWidget {
 
 class _ProgrammButtonState extends State<ProgrammButton> {
   late bool isSelected;
+  late AppState appState;
   Uint8List? imageBytes;
 
   @override
   void initState() {
     super.initState();
+    appState = Provider.of<AppState>(context, listen: false);
     isSelected = widget.initialIsSelected;
     loadImage();
   }
@@ -52,10 +55,10 @@ class _ProgrammButtonState extends State<ProgrammButton> {
           imageBytes = response.bodyBytes;
         });
       } else {
-        wirteLog('[Error] Failed to load image ${widget.image}');
+        appState.wirteLog('[Error] Failed to load image ${widget.image}');
       }
     } catch (e) {
-      wirteLog('[Error] Failed to load image ${widget.image} ${e}');
+      appState.wirteLog('[Error] Failed to load image ${widget.image} ${e}');
     }
   }
 

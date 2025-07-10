@@ -2,14 +2,11 @@ import 'dart:isolate';
 import 'dart:io';
 import 'dart:math';
 import 'package:appstreamcontrolpanel/classes/program.dart';
-import 'package:appstreamcontrolpanel/functions/get_group_list.dart';
 import 'package:appstreamcontrolpanel/functions/get_translated_dropdown_text.dart';
-import 'package:appstreamcontrolpanel/functions/load_json_file.dart';
-import 'package:appstreamcontrolpanel/functions/write_log.dart';
-import 'package:appstreamcontrolpanel/global_variable.dart';
 import 'package:appstreamcontrolpanel/models/custom_title_bar.dart';
 import 'package:appstreamcontrolpanel/models/start_button.dart';
 import 'package:appstreamcontrolpanel/pages/settings.dart';
+import 'package:appstreamcontrolpanel/state/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:appstreamcontrolpanel/models/custom_text_field.dart';
 import 'package:appstreamcontrolpanel/constant.dart';
@@ -17,6 +14,7 @@ import 'package:appstreamcontrolpanel/models/programm_button.dart';
 import 'package:gif/gif.dart';
 import 'dart:async';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -31,12 +29,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   bool allDeselected = true;
 
   late final GifController controller;
+  late AppState appState;
+  late String dropdownValue;
   bool isVisible = true;
 
   int countTrysToLoadJson = 0;
 
   @override
   void initState() {
+    appState = Provider.of<AppState>(context, listen: false);
     controller = GifController(vsync: this);
     controller.addListener(() {
       if (controller.isCompleted) {
@@ -47,6 +48,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     });
     super.initState();
     loadJsonData();
+    dropdownValue = appState.groupList.first;
   }
 
   void showErrorDialog(BuildContext context, String message) {
@@ -141,11 +143,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
         Navigator.of(context).pop();
 
-        wirteLog(
+        appState.wirteLog(
             "${program.name} ${AppLocalizations.of(context)!.started_successfully}");
       } catch (e) {
         Navigator.of(context).pop();
-        wirteLog(
+        appState.wirteLog(
             "${AppLocalizations.of(context)!.program_path_for_program}: ${program.name} ${AppLocalizations.of(context)!.could_not_be_found}");
         showErrorDialog(context, program.name);
       }
@@ -153,48 +155,48 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   Future<void> loadJsonData() async {
-    final data = await loadJsonFile(jsonPath);
+    final data = await appState.loadJsonFile(appState.jsonPath);
     setState(() {
-      programs = data.map((item) => Program.fromJson(item)).toList();
-      filterdPrograms = List.from(programs);
-      getGroupList();
+      appState.programs = data.map((item) => Program.fromJson(item)).toList();
+      appState.filterdPrograms = List.from(appState.programs);
+      appState.getGroupList();
     });
   }
 
   void filterProgramsByGroop(String group) {
-    filterdPrograms.clear();
+    appState.filterdPrograms.clear();
     if (group == "Alle anzeigen") {
-      filterdPrograms = List.from(programs);
+      appState.filterdPrograms = List.from(appState.programs);
     } else {
-      for (Program p in programs) {
+      for (Program p in appState.programs) {
         if (p.group == group) {
-          filterdPrograms.add(p);
+          appState.filterdPrograms.add(p);
         }
       }
     }
   }
 
   void filterProgramsByName(String searchString) {
-    filterdPrograms.clear();
+    appState.filterdPrograms.clear();
 
-    for (Program p in programs) {
+    for (Program p in appState.programs) {
       if (p.name.toLowerCase().contains(searchString.toLowerCase())) {
-        filterdPrograms.add(p);
+        appState.filterdPrograms.add(p);
       }
     }
   }
 
-  String dropdownValue = groupList.first;
   @override
   Widget build(BuildContext context) {
-    if (filterdPrograms.isEmpty) {
+    if (appState.filterdPrograms.isEmpty) {
       if (countTrysToLoadJson <= 15) {
         Future.delayed(const Duration(seconds: 5), () {
           loadJsonData();
         });
         countTrysToLoadJson++;
       } else {
-        wirteLog(AppLocalizations.of(context)!.filteredPrograms_is_empty);
+        appState
+            .wirteLog(AppLocalizations.of(context)!.filteredPrograms_is_empty);
       }
     }
     return Scaffold(
@@ -248,7 +250,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         CustomTextField(
                           onChanged: () {
                             setState(() {
-                              filterProgramsByName(searchString);
+                              filterProgramsByName(appState.searchString);
                             });
                           },
                         ),
@@ -289,7 +291,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 filterProgramsByGroop(dropdownValue);
                               });
                             },
-                            items: groupList
+                            items: appState.groupList
                                 .map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -311,7 +313,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   SizedBox(
                     height: 364,
                     width: 745,
-                    child: filterdPrograms.isEmpty
+                    child: appState.filterdPrograms.isEmpty
                         ? Center(
                             child: IntrinsicHeight(
                             child: Column(
@@ -336,8 +338,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 child: Wrap(
                                   spacing: 15.0,
                                   runSpacing: 20.0,
-                                  children:
-                                      filterdPrograms.map((filterdPrograms) {
+                                  children: appState.filterdPrograms
+                                      .map((filterdPrograms) {
                                     return ProgrammButton(
                                       key: ValueKey(filterdPrograms.id),
                                       name: filterdPrograms.name,
@@ -357,7 +359,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                               allDeselected = false;
                                               selectedPrograms
                                                   .add(filterdPrograms);
-                                              wirteLog(
+                                              appState.wirteLog(
                                                   "${AppLocalizations.of(context)!.user_selected} ${filterdPrograms.name}");
                                             }
                                           },

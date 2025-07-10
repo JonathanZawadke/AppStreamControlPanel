@@ -1,10 +1,11 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:appstreamcontrolpanel/state/app_state.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:appstreamcontrolpanel/constant.dart';
-import 'package:appstreamcontrolpanel/global_variable.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -16,16 +17,19 @@ class LogPage extends StatefulWidget {
 }
 
 class _LogPageState extends State<LogPage> {
+  late AppState appState;
+
   @override
   void initState() {
     super.initState();
+    appState = Provider.of<AppState>(context, listen: false);
     getLogFromSharedPreferences();
   }
 
   void getLogFromSharedPreferences() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      logList = prefs.getStringList('log_list') ?? [];
+      appState.logList = prefs.getStringList('log_list') ?? [];
     });
   }
 
@@ -134,7 +138,7 @@ class _LogPageState extends State<LogPage> {
                             if (logPath == '') {
                               return;
                             }
-                            await writeStringsToFile(logList, logPath);
+                            await writeStringsToFile(appState.logList, logPath);
                             showDialog(
                               context: context,
                               barrierDismissible: false,
@@ -267,11 +271,12 @@ class _LogPageState extends State<LogPage> {
                           color: DIVIDER,
                         );
                       },
-                      itemCount: logList.length,
+                      itemCount: appState.logList.length,
                       itemBuilder: (BuildContext context, int index) {
-                        int displayIndex =
-                            isReversed ? logList.length - 1 - index : index;
-                        return Text(logList[displayIndex]);
+                        int displayIndex = isReversed
+                            ? appState.logList.length - 1 - index
+                            : index;
+                        return Text(appState.logList[displayIndex]);
                       },
                     ),
                   ),
@@ -360,7 +365,7 @@ class _LogPageState extends State<LogPage> {
                           await SharedPreferences.getInstance();
                       await prefs.setStringList('log_list', []);
                       setState(() {
-                        logList.clear();
+                        appState.logList.clear();
                       });
                     } else {
                       // The user canceled the deletion
