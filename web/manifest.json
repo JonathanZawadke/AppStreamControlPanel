@@ -1,6 +1,6 @@
 {
-    "name": "appstream_tool",
-    "short_name": "appstream_tool",
+    "name": "appstreamcontrolpanel",
+    "short_name": "appstreamcontrolpanel",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

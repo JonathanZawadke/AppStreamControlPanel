@@ -4,7 +4,7 @@
 #define MyAppName "Appstream Tool"
 #define MyAppVersion "1.0"
 #define MyAppPublisher "MENTZ"
-#define MyAppExeName "appstream_tool.exe"
+#define MyAppExeName "appstreamcontrolpanel.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
@@ -26,8 +26,8 @@ ArchitecturesInstallIn64BitMode=x64compatible
 DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputDir=C:\projects\appstream_tool\installers
-OutputBaseFilename=appstream_tool_v1_0
+OutputDir=C:\projects\appstreamcontrolpanel\installers
+OutputBaseFilename=appstreamcontrolpanel_v1_0
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -39,12 +39,12 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\projects\appstream_tool\build\windows\x64\runner\Release\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\projects\appstream_tool\build\windows\x64\runner\Release\appstream_tool.exp"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\projects\appstream_tool\build\windows\x64\runner\Release\appstream_tool.lib"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\projects\appstream_tool\build\windows\x64\runner\Release\bitsdojo_window_windows_plugin.lib"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\projects\appstream_tool\build\windows\x64\runner\Release\flutter_windows.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\projects\appstream_tool\build\windows\x64\runner\Release\data\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\projects\appstreamcontrolpanel\build\windows\x64\runner\Release\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\projects\appstreamcontrolpanel\build\windows\x64\runner\Release\appstreamcontrolpanel.exp"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\projects\appstreamcontrolpanel\build\windows\x64\runner\Release\appstreamcontrolpanel.lib"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\projects\appstreamcontrolpanel\build\windows\x64\runner\Release\bitsdojo_window_windows_plugin.lib"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\projects\appstreamcontrolpanel\build\windows\x64\runner\Release\flutter_windows.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\projects\appstreamcontrolpanel\build\windows\x64\runner\Release\data\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
