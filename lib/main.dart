@@ -43,7 +43,7 @@ void main() async {
         ),
         ChangeNotifierProvider<AppState>.value(value: appState),
       ],
-      child: const MyApp(),
+      child: const AppStreamControlPanelApp(),
     ),
   );
 }
