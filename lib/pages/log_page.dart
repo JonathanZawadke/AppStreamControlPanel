@@ -1,8 +1,9 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:appstreamcontrolpanel/constants/app_colors.dart';
 import 'package:appstreamcontrolpanel/state/app_state.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:appstreamcontrolpanel/constant.dart';
+import 'package:appstreamcontrolpanel/constants/ui_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
@@ -82,8 +83,8 @@ class _LogPageState extends State<LogPage> {
             child: Container(
               padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
-                  border: Border.all(color: DIVIDER),
-                  borderRadius: BorderRadius.circular(BORDER_RADIUS)),
+                  border: Border.all(color: AppColors.divider),
+                  borderRadius: BorderRadius.circular(borderRadius)),
               child: Column(
                 children: [
                   Row(
@@ -94,7 +95,7 @@ class _LogPageState extends State<LogPage> {
                             isReversed = !isReversed;
                           });
                         },
-                        borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                        borderRadius: BorderRadius.circular(borderRadius),
                         child: Container(
                           padding: const EdgeInsets.all(3.0),
                           width: 135,
@@ -129,7 +130,7 @@ class _LogPageState extends State<LogPage> {
                       Text(AppLocalizations.of(context)!.text),
                       const Expanded(child: SizedBox()),
                       Material(
-                        color: LIGHT_GRAY,
+                        color: AppColors.lightGray,
                         borderRadius: BorderRadius.circular(100),
                         child: InkWell(
                           borderRadius: BorderRadius.circular(100),
@@ -144,10 +145,10 @@ class _LogPageState extends State<LogPage> {
                               barrierDismissible: false,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  backgroundColor: LIGHT_GRAY,
+                                  backgroundColor: AppColors.lightGray,
                                   shape: RoundedRectangleBorder(
                                     borderRadius:
-                                        BorderRadius.circular(BORDER_RADIUS),
+                                        BorderRadius.circular(borderRadius),
                                   ),
                                   title: Row(children: [
                                     const Padding(
@@ -179,9 +180,9 @@ class _LogPageState extends State<LogPage> {
                                         Material(
                                           color: Colors.white,
                                           borderRadius: BorderRadius.circular(
-                                              BORDER_RADIUS),
+                                              borderRadius),
                                           child: InkWell(
-                                            hoverColor: YELLOW_HOVER,
+                                            hoverColor: AppColors.yellowHover,
                                             onTap: () {
                                               Navigator.of(context).pop();
                                               final directory =
@@ -218,9 +219,9 @@ class _LogPageState extends State<LogPage> {
                                           width: 10,
                                         ),
                                         Material(
-                                          color: BLUE,
+                                          color: AppColors.blue,
                                           borderRadius: BorderRadius.circular(
-                                              BORDER_RADIUS),
+                                              borderRadius),
                                           child: InkWell(
                                             onTap: () {
                                               Navigator.of(context).pop();
@@ -260,7 +261,7 @@ class _LogPageState extends State<LogPage> {
                     ],
                   ),
                   const Divider(
-                    color: DIVIDER,
+                    color: AppColors.divider,
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.82,
@@ -268,7 +269,7 @@ class _LogPageState extends State<LogPage> {
                     child: ListView.separated(
                       separatorBuilder: (context, index) {
                         return const Divider(
-                          color: DIVIDER,
+                          color: AppColors.divider,
                         );
                       },
                       itemCount: appState.logList.length,
@@ -290,19 +291,19 @@ class _LogPageState extends State<LogPage> {
           Align(
             alignment: Alignment.bottomRight,
             child: Material(
-              color: LIGHT_GRAY,
-              borderRadius: BorderRadius.circular(BORDER_RADIUS),
+              color: AppColors.lightGray,
+              borderRadius: BorderRadius.circular(borderRadius),
               child: InkWell(
-                borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                borderRadius: BorderRadius.circular(borderRadius),
                 onTap: () async {
                   showDialog(
                     context: context,
                     barrierDismissible: false,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        backgroundColor: LIGHT_GRAY,
+                        backgroundColor: AppColors.lightGray,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                          borderRadius: BorderRadius.circular(borderRadius),
                         ),
                         title:
                             Text(AppLocalizations.of(context)!.really_delete),
@@ -311,10 +312,9 @@ class _LogPageState extends State<LogPage> {
                         actions: <Widget>[
                           Material(
                             //color: Colors.red,
-                            borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                            borderRadius: BorderRadius.circular(borderRadius),
                             child: InkWell(
-                              borderRadius:
-                                  BorderRadius.circular(BORDER_RADIUS),
+                              borderRadius: BorderRadius.circular(borderRadius),
                               onTap: () {
                                 Navigator.of(context).pop(false);
                               },
@@ -334,10 +334,9 @@ class _LogPageState extends State<LogPage> {
                           ),
                           Material(
                             color: Colors.red,
-                            borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                            borderRadius: BorderRadius.circular(borderRadius),
                             child: InkWell(
-                              borderRadius:
-                                  BorderRadius.circular(BORDER_RADIUS),
+                              borderRadius: BorderRadius.circular(borderRadius),
                               onTap: () {
                                 Navigator.of(context).pop(true);
                               },

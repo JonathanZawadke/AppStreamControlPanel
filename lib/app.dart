@@ -1,5 +1,5 @@
 import 'package:appstreamcontrolpanel/classes/language_change_provider.dart';
-import 'package:appstreamcontrolpanel/constant.dart';
+import 'package:appstreamcontrolpanel/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:appstreamcontrolpanel/pages/home_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: const [Locale('en'), Locale('de')],
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: BLUE),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.blue),
         useMaterial3: true,
       ),
       home: const MyHomePage(),

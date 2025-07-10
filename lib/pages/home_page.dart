@@ -2,6 +2,7 @@ import 'dart:isolate';
 import 'dart:io';
 import 'dart:math';
 import 'package:appstreamcontrolpanel/classes/program.dart';
+import 'package:appstreamcontrolpanel/constants/app_colors.dart';
 import 'package:appstreamcontrolpanel/functions/get_translated_dropdown_text.dart';
 import 'package:appstreamcontrolpanel/models/custom_title_bar.dart';
 import 'package:appstreamcontrolpanel/models/start_button.dart';
@@ -9,7 +10,7 @@ import 'package:appstreamcontrolpanel/pages/settings.dart';
 import 'package:appstreamcontrolpanel/state/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:appstreamcontrolpanel/models/custom_text_field.dart';
-import 'package:appstreamcontrolpanel/constant.dart';
+import 'package:appstreamcontrolpanel/constants/ui_constants.dart';
 import 'package:appstreamcontrolpanel/models/programm_button.dart';
 import 'package:gif/gif.dart';
 import 'dart:async';
@@ -57,9 +58,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: LIGHT_GRAY,
+          backgroundColor: AppColors.lightGray,
           shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(BORDER_RADIUS)),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
           ),
           title: Row(
             children: [
@@ -80,8 +81,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               "${AppLocalizations.of(context)!.the_program} $message ${AppLocalizations.of(context)!.cannot_be_started}."),
           actions: <Widget>[
             Material(
-              color: BLUE,
-              borderRadius: BorderRadius.circular(BORDER_RADIUS),
+              color: AppColors.blue,
+              borderRadius: BorderRadius.circular(borderRadius),
               child: InkWell(
                 onTap: () {
                   Navigator.of(context).pop();
@@ -111,9 +112,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return Dialog(
-          backgroundColor: LIGHT_GRAY,
+          backgroundColor: AppColors.lightGray,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(BORDER_RADIUS),
+            borderRadius: BorderRadius.circular(borderRadius),
           ),
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -227,7 +228,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     fit: BoxFit.fill,
                     placeholder: (context) {
                       return Container(
-                          height: 30, width: 125.5, color: DARK_GRAY);
+                          height: 30, width: 125.5, color: AppColors.darkGray);
                     },
                     image: const AssetImage("assets/MENTZ_LOGO_GIF.gif"),
                     controller: controller,
@@ -263,7 +264,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           width: 175,
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                            borderRadius: BorderRadius.circular(borderRadius),
                           ),
                           child: DropdownButton<String>(
                             value: dropdownValue,
@@ -279,7 +280,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               color: Colors.black,
                               fontWeight: FontWeight.w500,
                             ),
-                            borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                            borderRadius: BorderRadius.circular(borderRadius),
                             isExpanded: true,
                             padding: const EdgeInsets.only(left: 15, right: 8),
                             underline: Container(
@@ -403,7 +404,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     builder: (BuildContext context) {
                       return Dialog(
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                          borderRadius: BorderRadius.circular(borderRadius),
                         ),
                         child: SettingsPage(
                           onJsonPathChange: (String result) {

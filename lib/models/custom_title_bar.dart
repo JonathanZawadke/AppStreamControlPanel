@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:appstreamcontrolpanel/constant.dart';
+import 'package:appstreamcontrolpanel/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 
@@ -13,7 +13,7 @@ class CustomTitleBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 30,
-      color: DARK_GRAY,
+      color: AppColors.darkGray,
       child: WindowTitleBarBox(
         child: Row(
           children: [
@@ -57,7 +57,7 @@ class MinimizeWindowButton extends StatelessWidget {
       width: 40,
       height: 30,
       child: MaterialButton(
-        hoverColor: BLUE,
+        hoverColor: AppColors.blue,
         onPressed: () {
           appWindow.minimize();
         },
@@ -86,7 +86,7 @@ class SettingsButton extends StatelessWidget {
       width: 40,
       height: 30,
       child: MaterialButton(
-        hoverColor: BLUE,
+        hoverColor: AppColors.blue,
         onPressed: () {
           onSettingsTap();
         },
@@ -112,7 +112,7 @@ class CloseWindowButton extends StatelessWidget {
       width: 40,
       height: 30,
       child: MaterialButton(
-        hoverColor: BLUE,
+        hoverColor: AppColors.blue,
         onPressed: () {
           appWindow.close();
         },

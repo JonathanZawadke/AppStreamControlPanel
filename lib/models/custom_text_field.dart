@@ -1,6 +1,6 @@
 import 'package:appstreamcontrolpanel/state/app_state.dart';
 import 'package:flutter/material.dart';
-import 'package:appstreamcontrolpanel/constant.dart';
+import 'package:appstreamcontrolpanel/constants/ui_constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -49,7 +49,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             color: Colors.black,
           ),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(BORDER_RADIUS),
+            borderRadius: BorderRadius.circular(borderRadius),
           ),
         ),
         style: const TextStyle(

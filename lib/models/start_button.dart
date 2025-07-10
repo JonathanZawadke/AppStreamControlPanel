@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:appstreamcontrolpanel/classes/program.dart';
-import 'package:appstreamcontrolpanel/constant.dart';
+import 'package:appstreamcontrolpanel/constants/app_colors.dart';
+import 'package:appstreamcontrolpanel/constants/ui_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -23,13 +24,15 @@ class _StartButtonState extends State<StartButton> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: widget.selectedPrograms.isNotEmpty ? YELLOW : LIGHT_GRAY,
-      borderRadius: BorderRadius.circular(BORDER_RADIUS),
+      color: widget.selectedPrograms.isNotEmpty
+          ? AppColors.yellow
+          : AppColors.lightGray,
+      borderRadius: BorderRadius.circular(borderRadius),
       child: InkWell(
         onTap: () {
           widget.onTap();
         },
-        borderRadius: BorderRadius.circular(BORDER_RADIUS),
+        borderRadius: BorderRadius.circular(borderRadius),
         child: SizedBox(
           height: 40,
           width: 159,
@@ -45,7 +48,7 @@ class _StartButtonState extends State<StartButton> {
                     leadingDistribution: TextLeadingDistribution.even,
                     color: widget.selectedPrograms.isNotEmpty
                         ? Colors.black
-                        : START_TEXT),
+                        : AppColors.startText),
               ),
             ),
           ),

@@ -1,5 +1,6 @@
 import 'package:appstreamcontrolpanel/classes/languages_map_entry.dart';
-import 'package:appstreamcontrolpanel/constant.dart';
+import 'package:appstreamcontrolpanel/constants/app_colors.dart';
+import 'package:appstreamcontrolpanel/constants/ui_constants.dart';
 import 'package:appstreamcontrolpanel/models/show_password_dialog.dart';
 import 'package:appstreamcontrolpanel/pages/log_page.dart';
 import 'package:appstreamcontrolpanel/state/app_state.dart';
@@ -72,8 +73,8 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: LIGHT_GRAY,
-        borderRadius: BorderRadius.circular(BORDER_RADIUS),
+        color: AppColors.lightGray,
+        borderRadius: BorderRadius.circular(borderRadius),
       ),
       width: MediaQuery.of(context).size.width * 0.7,
       height: MediaQuery.of(context).size.height * 0.7,
@@ -121,9 +122,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   children: [
                     Material(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                      borderRadius: BorderRadius.circular(borderRadius),
                       child: InkWell(
-                        hoverColor: YELLOW_HOVER,
+                        hoverColor: AppColors.yellowHover,
                         onTap: () {
                           showPasswordDialog(context, () {
                             setState(() {
@@ -131,13 +132,13 @@ class _SettingsPageState extends State<SettingsPage> {
                             });
                           });
                         },
-                        borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                        borderRadius: BorderRadius.circular(borderRadius),
                         child: Container(
                           height: 40,
                           width: 150,
                           decoration: BoxDecoration(
                               borderRadius:
-                                  BorderRadius.circular(BORDER_RADIUS)),
+                                  BorderRadius.circular(borderRadius)),
                           child: Center(
                             child: Text(
                                 AppLocalizations.of(context)!.admin_settings),
@@ -150,31 +151,31 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     Material(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                      borderRadius: BorderRadius.circular(borderRadius),
                       child: InkWell(
-                        hoverColor: YELLOW_HOVER,
+                        hoverColor: AppColors.yellowHover,
                         onTap: () {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return Dialog(
-                                backgroundColor: LIGHT_GRAY,
+                                backgroundColor: AppColors.lightGray,
                                 shape: RoundedRectangleBorder(
                                   borderRadius:
-                                      BorderRadius.circular(BORDER_RADIUS),
+                                      BorderRadius.circular(borderRadius),
                                 ),
                                 child: LogPage(),
                               );
                             },
                           );
                         },
-                        borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                        borderRadius: BorderRadius.circular(borderRadius),
                         child: Container(
                           height: 40,
                           width: 150,
                           decoration: BoxDecoration(
                               borderRadius:
-                                  BorderRadius.circular(BORDER_RADIUS)),
+                                  BorderRadius.circular(borderRadius)),
                           child: Center(
                             child:
                                 Text(AppLocalizations.of(context)!.view_logs),
@@ -187,21 +188,21 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     Material(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                      borderRadius: BorderRadius.circular(borderRadius),
                       child: InkWell(
-                        hoverColor: YELLOW_HOVER,
+                        hoverColor: AppColors.yellowHover,
                         onTap: () {
                           setState(() {
                             currentView = SettingsView.language;
                           });
                         },
-                        borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                        borderRadius: BorderRadius.circular(borderRadius),
                         child: Container(
                           height: 40,
                           width: 150,
                           decoration: BoxDecoration(
                               borderRadius:
-                                  BorderRadius.circular(BORDER_RADIUS)),
+                                  BorderRadius.circular(borderRadius)),
                           child: Center(
                             child: Text(AppLocalizations.of(context)!.language),
                           ),
@@ -218,7 +219,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: Container(
                     width: 2,
                     height: 260,
-                    color: DIVIDER,
+                    color: AppColors.divider,
                   ),
                 ),
                 Visibility(
@@ -242,21 +243,20 @@ class _SettingsPageState extends State<SettingsPage> {
                           Center(
                             child: Material(
                               color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.circular(BORDER_RADIUS),
+                              borderRadius: BorderRadius.circular(borderRadius),
                               child: InkWell(
-                                hoverColor: YELLOW_HOVER,
+                                hoverColor: AppColors.yellowHover,
                                 onTap: () {
                                   pickFile();
                                 },
                                 borderRadius:
-                                    BorderRadius.circular(BORDER_RADIUS),
+                                    BorderRadius.circular(borderRadius),
                                 child: Container(
                                     height: 40,
                                     width: 150,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(
-                                            BORDER_RADIUS)),
+                                            borderRadius)),
                                     child: Center(
                                         child: Text(
                                             AppLocalizations.of(context)!
@@ -313,9 +313,9 @@ class _SettingsPageState extends State<SettingsPage> {
           Container(
             height: 70,
             decoration: const BoxDecoration(
-              color: DARK_GRAY,
+              color: AppColors.darkGray,
               borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(BORDER_RADIUS),
+                bottom: Radius.circular(borderRadius),
               ),
             ),
             child: Row(
@@ -331,8 +331,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const Expanded(child: SizedBox()),
                 Material(
-                  color: BLUE,
-                  borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                  color: AppColors.blue,
+                  borderRadius: BorderRadius.circular(borderRadius),
                   child: InkWell(
                     onTap: () {
                       if (selectedLanguageString !=
